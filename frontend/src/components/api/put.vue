@@ -64,7 +64,7 @@ const onSelectuser = (data) => {
                 <p class="text-white text-2xl">รายชื่อ</p>
                 <div v-for="(item, index) in userData" :key="index" class="flex flex-col gap-4 p-2">
                     <div
-                        class="flex justify-between w-80 font-semibold bg-white hover:bg-zinc-100 text-black p-2 rounded-lg">
+                        class="flex justify-between max-w-80 font-semibold bg-white hover:bg-zinc-100 text-black p-2 rounded-lg">
                         <div class="flex items-center gap-4 ">
 
                             <span>{{ item.id }}</span>

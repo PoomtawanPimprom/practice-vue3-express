@@ -13,7 +13,12 @@ const navlist = [
         <div class="part">
             <a href="/">Home</a>
         </div>
-        <div class="part">search</div>
+        <div class="part ">
+            <p class="hidden sm:block">
+
+                search
+            </p>
+        </div>
         <div class="part" v-for="(item, index) in navlist" :key='index'>
             <a :href="item.href">{{ item.label }}</a>
         </div>

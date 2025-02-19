@@ -29,7 +29,7 @@ const onDeleteById = async (id) => {
         </div>
         <div v-else>
             <div v-for="(item, index) in userData" :key="index" class="flex flex-col gap-4 p-2">
-                <div class="flex justify-between w-80 font-semibold bg-white hover:bg-zinc-100 text-black p-2 rounded-lg">
+                <div class="flex justify-between max-w-80    font-semibold bg-white hover:bg-zinc-100 text-black p-2 rounded-lg">
                     <div class="flex gap-2">
                         <span>{{ item.id }}</span>
                         <span>{{ item.fname }}</span>
