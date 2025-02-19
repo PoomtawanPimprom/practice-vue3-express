@@ -1,4 +1,6 @@
 <script setup>
+import LoadingComponent from '../loading.vue'
+
 defineProps({
     userdata: { type: Array },
     error: { type: String, opional: true },
@@ -11,7 +13,7 @@ defineProps({
         <p class="text-3xl font-bold text-white">Get method</p>
         <p class="text-white text-xl">รายการผู้ใช้งาน</p>
         <div v-if="loading">
-            loading jaa
+            <LoadingComponent />
         </div>
         <div v-else>
             <div v-for="(item, index) in userdata" :key="index">

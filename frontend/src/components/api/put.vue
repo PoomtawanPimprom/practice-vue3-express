@@ -1,5 +1,6 @@
 <script setup>
 import { reactive, ref } from "vue"
+import LoadingComponent from '../loading.vue'
 
 const prop = defineProps({
     refreshUser: Function,
@@ -17,10 +18,11 @@ const selectedformdata = reactive({
 
 const onSubmit = async () => {
     try {
+        loading.value = true
         // check case not selected
         if (!selectedformdata.id || !selectedformdata.fname || !selectedformdata.lname) return
-        loading.value = true
         console.log(selectedformdata)
+        await new Promise(resolve => setTimeout(resolve, 750));
         const res = await fetch(`http://localhost:3000/api/user/${selectedformdata.id}`, {
             method: "PUT",
             headers: {
@@ -58,7 +60,7 @@ const onSelectuser = (data) => {
 <template>
     <div class="bg-emerald-900 p-8 mx-auto ">
         <p class="text-3xl font-bold text-white">Put Method</p>
-        <div v-if="loading">loading jaaaaaaa</div>
+        <div v-if="loading"><LoadingComponent /></div>
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-3">
             <div>
                 <p class="text-white text-2xl">รายชื่อ</p>

@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "vue";
+import LoadingComponent from '../loading.vue'
 
 const prop = defineProps({
     refreshData: Function,
@@ -9,15 +10,23 @@ const prop = defineProps({
 const loading = ref(false)
 
 const onDeleteById = async (id) => {
-    const res = await fetch(`http://localhost:3000/api/user/${id}`, {
-        method: "DELETE",
-        headers: {
-            "content-type": "application/json"
-        }
-    })
-    prop.refreshData();
-}
+    try {
+        loading.value = true
+        await new Promise(resolve => setTimeout(resolve, 750));
+        const res = await fetch(`http://localhost:3000/api/user/${id}`, {
+            method: "DELETE",
+            headers: {
+                "content-type": "application/json"
+            }
+        })
+        prop.refreshData();
 
+    } catch (error) {
+        console.log(error.message)
+    }finally{
+        loading.value = false
+    }
+}
 </script>
 
 <template>
@@ -25,7 +34,7 @@ const onDeleteById = async (id) => {
         <p class="text-3xl font-bold text-white">Delete method</p>
         <p class="text-white text-xl">รายการผู้ใช้งาน</p>
         <div v-if="loading">
-            loading jaa
+            <LoadingComponent/>
         </div>
         <div v-else>
             <div v-for="(item, index) in userData" :key="index" class="flex flex-col gap-4 p-2">

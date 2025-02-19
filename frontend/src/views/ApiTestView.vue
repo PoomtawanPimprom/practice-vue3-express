@@ -9,17 +9,25 @@ const userdata = ref([])
 const error = ref('')
 const loading = ref(false)
 const fetchdata = async () => {
-    const res = await fetch("http://localhost:3000/api/user", { method: "GET" })
-    if (!res.ok) { throw new Error("เกิดขอผิดพลาด") }
-    userdata.value = await res.json()
+    loading.value = true; // ตั้งค่าก่อนการ fetch
+    try {
+        const res = await fetch("http://localhost:3000/api/user", { method: "GET" });
+        if (!res.ok) { throw new Error("เกิดข้อผิดพลาด"); }
+        userdata.value = await res.json();
+    } catch (err) {
+        error.value = "Error: " + err.message;
+    } finally {
+        loading.value = false; // ตั้งค่าให้ false หลังจาก fetch เสร็จ
+    }
 }
 
 onMounted(async () => {
     try {
-        console.log("try")
         loading.value = true;
+        console.log("try")
+        await new Promise(resolve => setTimeout(resolve, 750));
         await fetchdata()
-        console.log(userdata)
+
     } catch (error) {
         error.value = "Error: " + error
     }
@@ -38,7 +46,7 @@ onMounted(async () => {
         </div>
         <GetComponent :userdata="userdata" :loading="loading" :error="error" />
         <PostComponent :refreshUser="fetchdata" />
-        <PutComponent :refreshUser="fetchdata"  :userData="userdata"/>
+        <PutComponent :refreshUser="fetchdata" :userData="userdata" />
         <DeleteComponent :refreshData="fetchdata" :userData="userdata" />
     </div>
 </template>
