@@ -1,20 +1,30 @@
-import express from 'express'
-import morgan from 'morgan'
+const express = require('express')
+const morgan = require('morgan')
+const bodyParser = require('body-parser')
+require('dotenv').config()
+const mysql = require('mysql2')
 
-const app = express()
+// Import Routes
+const HelloRoute = require('./router/hello/hello.route.js');
+const UserRoute = require('./router/user/user.route.js');
 
-//route
-import HelloRoute from './router/hello/hello.route.js'
-
-// router
-app.use('/api/hello',HelloRoute)
-
-//setup
-app.use(morgan('dev'))
+const app = express();
 
 
-app.listen(3000, () =>{
-    console.log("server start")
-})
+
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+// Routes
+app.use('/api/hello', HelloRoute);
+app.use('/api/user', UserRoute);
+// Start Server
+app.listen(3000, () => {
+    console.log("Server started on port 3000");
+});
+
+
+
+
+
 
 
