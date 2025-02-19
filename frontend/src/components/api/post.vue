@@ -6,8 +6,8 @@ const props = defineProps({
 })
 
 const formdata = reactive({
-    firstName: "",
-    lastName: "",
+    fname: "",
+    lname: "",
 })
 const loading = ref(false)
 const error = ref(null)
@@ -16,10 +16,10 @@ const onSubmit = async () => {
     try {
         loading.value = true
 
-        if (!formdata.firstName.trim() || !formdata.lastName.trim()) {
+        if (!formdata.fname.trim() || !formdata.lname.trim()) {
             throw new Error("โปรดกรอกฟอร์ม")
         }
-        const res = await fetch("http://localhost:8080/api/users", {
+        const res = await fetch("http://localhost:3000/api/user", {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -29,7 +29,7 @@ const onSubmit = async () => {
         if (!res.ok) throw new Error(data.message)
 
         props.refreshUser()
-        Object.assign(formdata, { firstName: "", lastName: "" });
+        Object.assign(formdata, { fname: "", lname: "" });
         error.value = null
     } catch (error) {
         error.value = error.message
@@ -41,8 +41,8 @@ const onSubmit = async () => {
 }
 
 const onReset = () => {
-    formdata.firstName = ""
-    formdata.lastName = ""
+    formdata.fname = ""
+    formdata.lname = ""
 }
 </script>
 
@@ -54,13 +54,13 @@ const onReset = () => {
             <div>
                 <form class="form-container p-4 space-y-2" @submit.prevent="onSubmit">
                     <div class="input-container space-y-2">
-                        <label class="text-white text-xl uppercase">firstName</label>
+                        <label class="text-white text-xl uppercase">fname</label>
                         <input class="border rounded-lg w-full bg-zinc-100 p-2" type="text"
-                            v-model="formdata.firstName">
+                            v-model="formdata.fname">
                     </div>
                     <div class="input-container space-y-2">
-                        <label class="text-white text-xl uppercase">lastname</label>
-                        <input type="text" class="border rounded-lg w-full bg-zinc-100 p-2" v-model="formdata.lastName">
+                        <label class="text-white text-xl uppercase">lname</label>
+                        <input type="text" class="border rounded-lg w-full bg-zinc-100 p-2" v-model="formdata.lname">
                     </div>
                     <div class="flex flex-col sm:flex-row justify-end gap-2">
                         <button @click="onReset()" type="button"
@@ -76,16 +76,16 @@ const onReset = () => {
                         binding data
                     </p>
                     <div class="flex gap-2">
-                        <span>firstName :</span>
-                        <span>{{ formdata.firstName }}</span>
+                        <span>fname :</span>
+                        <span>{{ formdata.fname }}</span>
                     </div>
                     <div class="flex gap-2">
-                        <span>lastName :</span>
-                        <span>{{ formdata.lastName }}</span>
+                        <span>lname :</span>
+                        <span>{{ formdata.lname }}</span>
                     </div>
                     <div class="flex gap-2">
                         <span>Fullname :</span>
-                        <span>{{ formdata.firstName + " " + formdata.lastName }}</span>
+                        <span>{{ formdata.fname + " " + formdata.lname }}</span>
                     </div>
                 </div>
             </div>

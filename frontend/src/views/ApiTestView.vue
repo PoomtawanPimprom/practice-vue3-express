@@ -9,7 +9,7 @@ const userdata = ref([])
 const error = ref('')
 const loading = ref(false)
 const fetchdata = async () => {
-    const res = await fetch("http://localhost:8080/api/users", { method: "GET" })
+    const res = await fetch("http://localhost:3000/api/user", { method: "GET" })
     if (!res.ok) { throw new Error("เกิดขอผิดพลาด") }
     userdata.value = await res.json()
 }

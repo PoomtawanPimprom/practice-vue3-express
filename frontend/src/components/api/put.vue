@@ -11,17 +11,17 @@ const error = ref(null)
 
 const selectedformdata = reactive({
     id: 0,
-    firstName: "",
-    lastName: ""
+    fname: "",
+    lname: ""
 })
 
 const onSubmit = async () => {
     try {
         // check case not selected
-        if (!selectedformdata.id || !selectedformdata.firstName || !selectedformdata.lastName) return
+        if (!selectedformdata.id || !selectedformdata.fname || !selectedformdata.lname) return
         loading.value = true
         console.log(selectedformdata)
-        const res = await fetch(`http://localhost:8080/api/users/${selectedformdata.id}`, {
+        const res = await fetch(`http://localhost:3000/api/user/${selectedformdata.id}`, {
             method: "PUT",
             headers: {
                 "content-type": "application/json"
@@ -44,14 +44,14 @@ const onSubmit = async () => {
 
 const onReset = () => {
     selectedformdata.id = 0
-    selectedformdata.firstName = ""
-    selectedformdata.lastName = ""
+    selectedformdata.fname = ""
+    selectedformdata.lname = ""
 }
 
 const onSelectuser = (data) => {
     selectedformdata.id = data.id
-    selectedformdata.firstName = data.firstName
-    selectedformdata.lastName = data.lastName
+    selectedformdata.fname = data.fname
+    selectedformdata.lname = data.lname
 }
 
 </script>
@@ -68,8 +68,8 @@ const onSelectuser = (data) => {
                         <div class="flex items-center gap-4 ">
 
                             <span>{{ item.id }}</span>
-                            <span>{{ item.firstName }}</span>
-                            <span>{{ item.lastName }}</span>
+                            <span>{{ item.fname }}</span>
+                            <span>{{ item.lname }}</span>
 
                         </div>
                         <button @click="onSelectuser(item)" class="flex text-white rounded-lg bg-green-500 p-2"> แก้ไข
@@ -82,14 +82,14 @@ const onSelectuser = (data) => {
                     <form class="flex flex-col p-4 space-y-1 text-black" @submit.prevent="onSubmit">
                         <p class="text-2xl font-bold">แก้ไขรายชื่อ</p>
                         <div class="flex flex-col space-y-2">
-                            <label class=" text-lg uppercase">firstName</label>
+                            <label class=" text-lg uppercase">fname</label>
                             <input class="border rounded-lg w-full bg-zinc-100 p-2" type="text"
-                                v-model="selectedformdata.firstName">
+                                v-model="selectedformdata.fname">
                         </div>
                         <div class="input-container space-y-2">
-                            <label class=" text-lg uppercase">lastname</label>
+                            <label class=" text-lg uppercase">lname</label>
                             <input type="text" class="border rounded-lg w-full bg-zinc-100 p-2"
-                                v-model="selectedformdata.lastName">
+                                v-model="selectedformdata.lname">
                         </div>
                         <div class="flex mt-2 flex-col sm:flex-row justify-end gap-2">
                             <button @click="onReset()" type="button" :disabled="loading"

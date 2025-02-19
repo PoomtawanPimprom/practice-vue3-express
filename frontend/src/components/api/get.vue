@@ -17,8 +17,8 @@ defineProps({
             <div v-for="(item, index) in userdata" :key="index">
                 <div class="flex gap-2 text-white font-semibold">
                     <span>{{ item.id }}</span>
-                    <span>{{ item.firstName }}</span>
-                    <span>{{ item.lastName }}</span>
+                    <span>{{ item.fname }}</span>
+                    <span>{{ item.lname }}</span>
                 </div>
             </div>
         </div>

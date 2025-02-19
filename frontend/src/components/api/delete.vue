@@ -9,7 +9,7 @@ const prop = defineProps({
 const loading = ref(false)
 
 const onDeleteById = async (id) => {
-    const res = await fetch(`http://localhost:8080/api/users/${id}`, {
+    const res = await fetch(`http://localhost:3000/api/user/${id}`, {
         method: "DELETE",
         headers: {
             "content-type": "application/json"
@@ -32,8 +32,8 @@ const onDeleteById = async (id) => {
                 <div class="flex justify-between w-80 font-semibold bg-white hover:bg-zinc-100 text-black p-2 rounded-lg">
                     <div class="flex gap-2">
                         <span>{{ item.id }}</span>
-                        <span>{{ item.firstName }}</span>
-                        <span>{{ item.lastName }}</span>
+                        <span>{{ item.fname }}</span>
+                        <span>{{ item.lname }}</span>
                     </div>
                     <button @click="onDeleteById(item.id)" class="w-[40px] h-[40px] bg-red-500 rounded-lg hover:bg-red-400 " >-</button>
                 </div>
