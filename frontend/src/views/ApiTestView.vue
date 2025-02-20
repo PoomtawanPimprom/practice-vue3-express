@@ -40,7 +40,7 @@ onMounted(async () => {
 </script>
 
 <template>
-    <div class="min-h-screen p-4 sm:p-6 ">
+    <div class="min-h-screen p-4 sm:p-6 bg-zinc-100 ">
         <div class="flex justify-center">
             <p class="text-6xl uppercase font-black my-16    ">api page</p>
         </div>
