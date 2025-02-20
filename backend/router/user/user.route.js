@@ -6,9 +6,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
     try {
         const users = await getAllUser()
-        if (!users || users.length === 0) {
-            return res.status(404).json({ error: "No users found." });
-        }
         return res.json(users);
     } catch (err) {
         return res.status(500).json({ error: err.message });
