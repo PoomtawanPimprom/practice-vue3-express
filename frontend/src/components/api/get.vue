@@ -1,11 +1,16 @@
-<script setup>
-import LoadingComponent from '../loading.vue'
+<script>
+import LoadingComponent from '../loading.vue';
 
-defineProps({
-    userdata: { type: Array },
-    error: { type: String, opional: true },
-    loading: { type: Boolean, require: true }
-})
+export default {
+    props: {
+        userdata: { type: Array },
+        error: { type: String, optional: true },
+        loading: { type: Boolean, required: true }
+    },
+    components: {
+        LoadingComponent
+    }
+};
 </script>
 
 <template>

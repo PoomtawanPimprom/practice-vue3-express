@@ -1,33 +1,41 @@
-<script setup>
-import { ref } from "vue";
-import LoadingComponent from '../loading.vue'
+<script>
+import LoadingComponent from '../loading.vue';
 
-const prop = defineProps({
-    refreshData: Function,
-    userData: Array,
-})
-
-const loading = ref(false)
-
-const onDeleteById = async (id) => {
-    try {
-        loading.value = true
-        await new Promise(resolve => setTimeout(resolve, 750));
-        const res = await fetch(`http://localhost:3000/api/user/${id}`, {
-            method: "DELETE",
-            headers: {
-                "content-type": "application/json"
+export default {
+    props: {
+        refreshData: Function,
+        userData: Array,
+    },
+    data() {
+        return {
+            loading: false
+        };
+    },
+    methods: {
+        async onDeleteById(id) {
+            try {
+                this.loading = true;
+                await new Promise(resolve => setTimeout(resolve, 750));
+                await fetch(`http://localhost:3000/api/user/${id}`, {
+                    method: "DELETE",
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                });
+                this.refreshData();
+            } catch (error) {
+                console.log(error.message);
+            } finally {
+                this.loading = false;
             }
-        })
-        prop.refreshData();
-
-    } catch (error) {
-        console.log(error.message)
-    }finally{
-        loading.value = false
+        }
+    },
+    components: {
+        LoadingComponent
     }
-}
+};
 </script>
+
 
 <template>
     <div class="bg-emerald-800 p-8 mx-auto ">

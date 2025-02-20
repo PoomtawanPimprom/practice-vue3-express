@@ -1,52 +1,62 @@
-<script setup>
-import { reactive, ref } from "vue";
-import LoadingComponent from '../loading.vue'
+<script>
+import LoadingComponent from '../loading.vue';
 
-const props = defineProps({
-    refreshUser: Function
-})
+export default {
+    props: {
+        refreshUser: Function
+    },
+    data() {
+        return {
+            formdata: {
+                fname: "",
+                lname: ""
+            },
+            loading: false,
+            error: null
+        };
+    },
+    methods: {
+        async onSubmit() {
+            try {
+                this.loading = true;
 
-const formdata = reactive({
-    fname: "",
-    lname: "",
-})
-const loading = ref(false)
-const error = ref(null)
+                if (!this.formdata.fname.trim() || !this.formdata.lname.trim()) {
+                    throw new Error("โปรดกรอกฟอร์ม");
+                }
+                await new Promise(resolve => setTimeout(resolve, 750));
+                const res = await fetch("http://localhost:3000/api/user", {
+                    method: "POST",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(this.formdata),
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.message);
 
-const onSubmit = async () => {
-    try {
-        loading.value = true
-
-        if (!formdata.fname.trim() || !formdata.lname.trim()) {
-            throw new Error("โปรดกรอกฟอร์ม")
+                this.refreshUser();
+                this.formdata.fname = "";
+                this.formdata.lname = "";
+                this.error = null;
+            } catch (error) {
+                this.error = error.message;
+                console.log("error: " + error.message);
+                console.log("error: " + this.error);
+            } finally {
+                this.loading = false;
+            }
+        },
+        onReset() {
+            this.formdata.fname = "";
+            this.formdata.lname = "";
         }
-        await new Promise(resolve => setTimeout(resolve, 750));
-        const res = await fetch("http://localhost:3000/api/user", {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            }, body: JSON.stringify(formdata),
-        })
-        const data = await res.json()
-        if (!res.ok) throw new Error(data.message)
-
-        props.refreshUser()
-        Object.assign(formdata, { fname: "", lname: "" });
-        error.value = null
-    } catch (error) {
-        error.value = error.message
-        console.log("error: " + error.message)
-        console.log("error: " + error.value)
-    } finally {
-        loading.value = false
+    },
+    components: {
+        LoadingComponent
     }
-}
-
-const onReset = () => {
-    formdata.fname = ""
-    formdata.lname = ""
-}
+};
 </script>
+
 
 <template>
     <div class="bg-emerald-300 p-8 mx-auto ">

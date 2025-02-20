@@ -1,66 +1,73 @@
-<script setup>
+<script>
 import { reactive, ref } from "vue"
 import LoadingComponent from '../loading.vue'
+export default {
+    props: {
+        refreshUser: Function,
+        userData: Array,
+    },
+    data() {
+        return {
+            loading: false,
+            error: null,
+            selectedformdata: {
+                id: 0,
+                fname: "",
+                lname: "",
+            }
+        }
+    },
+    components: {
+        LoadingComponent
+    },
+    methods: {
+        async onSubmit() {
+            try {
+                loading.value = true
+                // check case not selected
+                if (!selectedformdata.id || !selectedformdata.fname || !selectedformdata.lname) return
+                console.log(selectedformdata)
+                await new Promise(resolve => setTimeout(resolve, 750));
+                const res = await fetch(`http://localhost:3000/api/user/${selectedformdata.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "content-type": "application/json"
+                    },
+                    body: JSON.stringify(selectedformdata)
+                })
+                const data = res.json()
+                if (!res.ok) { throw new Error(data.message) }
+                error.value = null;
+                prop.refreshUser();
+                onReset();
 
-const prop = defineProps({
-    refreshUser: Function,
-    userData: Array,
-})
-const loading = ref(false)
-const error = ref(null)
+            } catch (error) {
+                error.value = error
+            } finally {
+                loading.value = false
+            }
+        },
+        onReset() {
+            selectedformdata.id = 0
+            selectedformdata.fname = ""
+            selectedformdata.lname = ""
+        },
+        onSelectuser() {
+            selectedformdata.id = data.id
+            selectedformdata.fname = data.fname
+            selectedformdata.lname = data.lname
+        }
 
-
-const selectedformdata = reactive({
-    id: 0,
-    fname: "",
-    lname: ""
-})
-
-const onSubmit = async () => {
-    try {
-        loading.value = true
-        // check case not selected
-        if (!selectedformdata.id || !selectedformdata.fname || !selectedformdata.lname) return
-        console.log(selectedformdata)
-        await new Promise(resolve => setTimeout(resolve, 750));
-        const res = await fetch(`http://localhost:3000/api/user/${selectedformdata.id}`, {
-            method: "PUT",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(selectedformdata)
-        })
-        const data = res.json()
-        if (!res.ok) { throw new Error(data.message) }
-        error.value = null;
-        prop.refreshUser();
-        onReset();
-
-    } catch (error) {
-        error.value = error
-    } finally {
-        loading.value = false
     }
-
-}
-
-const onReset = () => {
-    selectedformdata.id = 0
-    selectedformdata.fname = ""
-    selectedformdata.lname = ""
-}
-
-const onSelectuser = (data) => {
-    selectedformdata.id = data.id
-    selectedformdata.fname = data.fname
-    selectedformdata.lname = data.lname
 }
 
 </script>
 <template>
     <div class="bg-emerald-900 p-8 mx-auto ">
         <p class="text-3xl font-bold text-white">Put Method</p>
-        <div v-if="loading"><LoadingComponent /></div>
+        <div v-if="loading">
+            <LoadingComponent />
+        </div>
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 mt-3">
             <div>
                 <p class="text-white text-2xl">รายชื่อ</p>
