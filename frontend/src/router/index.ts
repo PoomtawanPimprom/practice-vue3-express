@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import ApiView from "../views/ApiTestView.vue"
+import SlotView from '@/views/SlotView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -15,6 +16,11 @@ const router = createRouter({
       component: HomeView,
     },
     {
+      path: '/slot',
+      name: 'slot',
+      component: SlotView,
+    },
+    {
       path: '/about',
       name: 'about',
       // route level code-splitting
@@ -22,6 +28,7 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/AboutView.vue'),
     },
+
   ],
 })
 
