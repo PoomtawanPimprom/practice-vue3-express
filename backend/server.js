@@ -11,7 +11,8 @@ const UserRoute = require('./router/user/user.route.js');
 const app = express();
 
 const corsOption = {
-    origin: 'http://localhost:5173',
+    origin:'http://localhost:3000',
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 }
 
 app.use(cors(corsOption))
@@ -21,8 +22,8 @@ app.use(bodyParser.json());
 app.use('/api/hello', HelloRoute);
 app.use('/api/user', UserRoute);
 // Start Server
-app.listen(3000, () => {
-    console.log("Server started on port 3000");
+app.listen(8080, () => {
+    console.log("Server started on port 8080");
 });
 
 
