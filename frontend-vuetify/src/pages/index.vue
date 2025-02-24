@@ -1,7 +1,18 @@
 <template>
-  <HelloWorld />
+    <v-container fluid>
+      <Welcome/>
+      <Navigation/>
+    </v-container>
 </template>
 
-<script lang="ts" setup>
-  //
+<script >
+import Navigation from '@/components/home/Navigation.vue';
+import Welcome from '@/components/home/Welcome.vue';
+
+export default {
+  components:{
+    Welcome,
+    Navigation
+  }
+}
 </script>
