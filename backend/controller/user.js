@@ -1,9 +1,15 @@
-const pool = require('../database/db');
+const { PrismaClient } = require('@prisma/client')
+
+const prisma = new PrismaClient()
 
 const getAllUser = async () => {
     try {
-        const [users] = await pool.query("SELECT * FROM user");
-        return users;
+        const data = await prisma.user.findMany({
+            include: {
+                role: true
+            }
+        })
+        return data;
     } catch (err) {
         console.error("Database query error:", err);
         return
@@ -12,8 +18,13 @@ const getAllUser = async () => {
 
 const getUserById = async (id) => {
     try {
-        const [user] = await pool.execute("SELECT * FROM user WHERE id = ? ", [id]);
-        return user;
+        const data = await prisma.user.findFirst({
+            where: { id: id },
+            include: {
+                role: true
+            }
+        })
+        return data;
     } catch (err) {
         console.error("Database query error:", err);
         return null;
@@ -23,8 +34,13 @@ const getUserById = async (id) => {
 const createUser = async (data) => {
     try {
         const { fname, lname } = data
-        const [result] = await pool.execute("INSERT INTO user (fname,lname) VALUES (?,?)", [fname, lname])
-        return result
+        const newUSer = await prisma.user.create({
+            data: {
+                fname,
+                lname
+            }
+        })
+        return newUSer
     } catch (error) {
         console.error("Database query error:", error);
         return []
@@ -33,33 +49,16 @@ const createUser = async (data) => {
 
 const updateUserById = async (id, data) => {
     try {
-        const { fname, lname } = data;
+        const { fname, lname, roleId } = data;
 
-        const updates = [];
-        const values = [];
-
-        //check fname
-        if (fname !== undefined) {
-            updates.push("fname = ?");
-            values.push(fname);
-        }
-
-        //check lname
-        if (lname !== undefined) {
-            updates.push("lname = ?");
-            values.push(lname);
-        }
-
-        // if invalid will return
-        if (updates.length === 0) {
-            return { error: "No fields to update." };
-        }
-
-        // update
-        const sql = `UPDATE user SET ${updates.join(", ")} WHERE id = ? LIMIT 1`;
-        values.push(id);
-        await pool.execute(sql, values);
-
+        const updateData = await prisma.user.update({
+            where: { id },
+            data: {
+                fname,
+                lname,
+                roleId
+            }
+        })
         return {
             message: "Updated data successfully",
         };
@@ -72,8 +71,9 @@ const updateUserById = async (id, data) => {
 const deleteUserById = async (id) => {
     try {
         //delete user
-        await pool.execute("DELETE FROM user WHERE id = ?", [id])
-
+        await prisma.user.delete({
+            where:{id}
+        })
         return {
             message: "User deleted successfully",
         }
