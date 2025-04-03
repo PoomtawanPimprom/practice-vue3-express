@@ -23,6 +23,11 @@ declare module 'vue-router/auto-routes' {
     '/cart': RouteRecordInfo<'/cart', '/cart', Record<never, never>, Record<never, never>>,
     '/fetchApi': RouteRecordInfo<'/fetchApi', '/fetchApi', Record<never, never>, Record<never, never>>,
     '/form': RouteRecordInfo<'/form', '/form', Record<never, never>, Record<never, never>>,
+    '/pos/employee': RouteRecordInfo<'/pos/employee', '/pos/employee', Record<never, never>, Record<never, never>>,
+    '/pos/main': RouteRecordInfo<'/pos/main', '/pos/main', Record<never, never>, Record<never, never>>,
+    '/pos/productlist': RouteRecordInfo<'/pos/productlist', '/pos/productlist', Record<never, never>, Record<never, never>>,
+    '/pos/stock': RouteRecordInfo<'/pos/stock', '/pos/stock', Record<never, never>, Record<never, never>>,
+    '/pos-test': RouteRecordInfo<'/pos-test', '/pos-test', Record<never, never>, Record<never, never>>,
     '/profile': RouteRecordInfo<'/profile', '/profile', Record<never, never>, Record<never, never>>,
   }
 }

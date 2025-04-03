@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { deleteUserById } from '@/service/user/service';
+
 export default {
     props: {
         usersData: Array,
@@ -28,13 +30,7 @@ export default {
     methods: {
         async deleteUser(user){
            try {
-            const res = await fetch(`http://localhost:8080/api/user/${user.id}`,{
-                method:"DELETE",
-                headers:{
-                    "Content-Type":"application/json"
-                }
-            })
-            if(!res.ok) throw new Error(res)
+            await deleteUserById(user.id)
             this.$props.fetchUsersData()
            } catch (error) {
             console.log(error)

@@ -60,6 +60,8 @@
 
 
 <script>
+import { createUser } from '@/service/user/service';
+
 export default {
     props: {
         usersData: Array,
@@ -76,14 +78,7 @@ export default {
     methods: {
         async onSubmit() {
             try {
-                const res = await fetch("http://localhost:8080/api/user", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(this.formdata)
-                })
-                if(!res.ok) throw new Error(res.toString());
+                await createUser(this.formdata)
                 this.$props.fetchUsersData()
                 this.formdata = {}
             }

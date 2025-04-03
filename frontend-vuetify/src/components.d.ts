@@ -16,6 +16,7 @@ declare module 'vue' {
     Put: typeof import('./components/fetchApi/Put.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Sidebar: typeof import('./components/POS/sidebar.vue')['default']
     Welcome: typeof import('./components/home/Welcome.vue')['default']
   }
 }

@@ -12,6 +12,7 @@ import Get from "@/components/fetchApi/Get.vue";
 import Post from "@/components/fetchApi/Post.vue";
 import Put from "@/components/fetchApi/Put.vue";
 import Delete from "@/components/fetchApi/Delete.vue";
+import { getAlluser } from "@/service/user/service";
 
 export default {
   data() {
@@ -22,18 +23,7 @@ export default {
   methods: {
     async getuser() {
       try {
-        const res = await fetch("http://localhost:8080/api/user", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!res.ok) {
-          throw new Error(`HTTP error! Status: ${res.status}`);
-        }
-
-        this.userdata = await res.json();
+        this.userdata = await getAlluser();
       } catch (error) {
         console.error("เกิดข้อผิดพลาดในการโหลดข้อมูล ❌", error);
       }

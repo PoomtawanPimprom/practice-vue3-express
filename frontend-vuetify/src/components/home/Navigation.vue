@@ -31,6 +31,7 @@ export default {
                 { title: "FetchAPI", href: "/FetchAPI" },
                 { title: "About", href: "/About" },
                 { title: "Profile", href: "/Profile" },
+                { title: "POS", href: "/pos/main" },
             ]
         }
     }

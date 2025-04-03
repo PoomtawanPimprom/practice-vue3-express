@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import { updateUserById } from '@/service/user/service';
+
 export default {
     props: {
         fetchUsersData: Function,
@@ -69,15 +71,7 @@ export default {
                     console.error("User ID is missing.");
                     return;
                 }
-                const res = await fetch(`http://localhost:8080/api/user/${this.data.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(this.data)
-                })
-
-                if (!res.ok) throw new Error(res)
+                await updateUserById(this.data.id,this.data)
                 this.$props.fetchUsersData()
             } catch (error) {
                 console.log(error)
